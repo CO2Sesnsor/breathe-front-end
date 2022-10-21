@@ -25,12 +25,7 @@ function App() {
   return (
     <div className="center">
       <Postingcard />
-
       <div>{JSON.stringify(reading)}</div>
-      {/* <h1>COMING SOON</h1>
-      <div className="scale-construction-img">
-        <img src={construction} alt="site under construction" />
-      </div> */}
     </div>
   );
 }
