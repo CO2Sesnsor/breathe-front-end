@@ -9,8 +9,17 @@ const getReadings = async () => {
   return response.data;
 };
 
+const postReading = async (reading) => {
+  console.log(reading);
+  const response = await sensorReadings.post("/api/data", reading, {
+    headers: { "Content-Type": "application/json" },
+  });
+  return response.data;
+};
+
 const readings = {
   getReadings,
+  postReading,
 };
 
 export default readings;
