@@ -25,13 +25,7 @@ function App() {
   return (
     <div className="center">
       <Postingcard />
-      <input type="text" ref={inputRef} />
-      <button
-        className="p-2 rounded-sm bg-black text-white"
-        onClick={addReading}
-      >
-        ADD
-      </button>
+
       <div>{JSON.stringify(reading)}</div>
       {/* <h1>COMING SOON</h1>
       <div className="scale-construction-img">
