@@ -24,12 +24,12 @@ function App() {
   };
 
   return (
-    <Routes>
-      <div className="center">
+    <div className="center">
+      <Routes>
         <Route path="/postdata" element={<Postingcard />} />
-        <div>{JSON.stringify(reading)}</div>
-      </div>
-    </Routes>
+        <Route path="/datadump" element=<div>{JSON.stringify(reading)}</div> />
+      </Routes>
+    </div>
   );
 }
 
