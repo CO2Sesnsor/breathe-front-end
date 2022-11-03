@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import sensorReadingsAPI from "../api/sensorReadings";
+
 const Postingcard = () => {
   const [time, setTime] = useState();
   useEffect(() => {
