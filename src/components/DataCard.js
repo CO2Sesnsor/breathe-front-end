@@ -24,39 +24,36 @@ const DataCard = ({ name, data, dataParameter, threshold, time }) => {
     ).toFixed(2);
     setPercentChange(percentChange);
 
-    if (percentChange > 0) {
-      setStyles({
-        ...styles,
-        percentFont: "text-green-700",
-      });
-    } else if (percentChange < 0) {
-      setStyles({
-        ...styles,
-        percentFont: "text-red-700",
-      });
-    }
+    let tempStyles = {
+      bg: "",
+      font: "",
+      percentFont: "",
+    };
+
     if (lastReading < threshold.good) {
-      setStyles({
-        ...styles,
-        bg: "bg-green-200",
-        font: "text-green-700",
-      });
+      tempStyles.bg = "text-green-200";
+      tempStyles.font = "text-green-700";
     } else if (
       lastReading > threshold.good &&
       lastReading < threshold.moderate
     ) {
-      setStyles({
-        ...styles,
-        bg: "bg-orange-200",
-        font: "text-orange-700",
-      });
+      tempStyles.bg = "text-orange-200";
+      tempStyles.font = "text-orange-700";
     } else if (lastReading > threshold.moderate) {
-      setStyles({
-        ...styles,
-        bg: "bg-red-200",
-        font: "text-red-700",
-      });
+      tempStyles.bg = "text-red-200";
+      tempStyles.font = "text-red-700";
     }
+    if (percentChange > 0) {
+      tempStyles.percentFont = "text-green-700";
+    } else if (percentChange < 0) {
+      tempStyles.percentFont = "text-red-700";
+    }
+    setStyles({
+      ...styles,
+      bg: tempStyles.bg,
+      font: tempStyles.font,
+      percentFont: tempStyles.percentFont,
+    });
   }, [data]);
 
   return (
