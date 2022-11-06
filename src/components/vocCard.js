@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const CO2 = ({ data, time }) => {
+const VOC = ({ data, time }) => {
   const [lastReading, setLastReading] = useState();
   const [prevReading, setPrevReading] = useState();
   const [percentChange, setPercentChange] = useState();
@@ -13,8 +12,8 @@ const CO2 = ({ data, time }) => {
   useEffect(() => {
     if (data.length === 0) return;
 
-    let lastReading = data[data.length - 1]["co2"];
-    let prevReading = data[data.length - 2]["co2"];
+    let lastReading = data[data.length - 1]["voc"];
+    let prevReading = data[data.length - 2]["voc"];
     setLastReading(lastReading);
     setPrevReading(prevReading);
     let percentChange = (
@@ -60,7 +59,7 @@ const CO2 = ({ data, time }) => {
         className={` ${styles.bg} ${styles.font} py-5 px-8 rounded-md flex flex-col gap-5 w-96`}
       >
         <div className="flex justify-between">
-          <p className="text-lg font-normal font-jakarta">CO2 Reading</p>
+          <p className="text-lg font-normal font-jakarta">VOC Reading</p>
           <p className="text-lg font-normal font-jakarta">{time}</p>
         </div>
         <div className="flex justify-between">
@@ -83,4 +82,4 @@ const CO2 = ({ data, time }) => {
   );
 };
 
-export default CO2;
+export default VOC;
