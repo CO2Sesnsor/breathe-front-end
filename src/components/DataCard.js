@@ -31,16 +31,16 @@ const DataCard = ({ name, data, dataParameter, threshold, time }) => {
     };
 
     if (lastReading < threshold.good) {
-      tempStyles.bg = "text-green-200";
+      tempStyles.bg = "bg-green-200";
       tempStyles.font = "text-green-700";
     } else if (
       lastReading > threshold.good &&
       lastReading < threshold.moderate
     ) {
-      tempStyles.bg = "text-orange-200";
+      tempStyles.bg = "bg-orange-200";
       tempStyles.font = "text-orange-700";
     } else if (lastReading > threshold.moderate) {
-      tempStyles.bg = "text-red-200";
+      tempStyles.bg = "bg-red-200";
       tempStyles.font = "text-red-700";
     }
     if (percentChange > 0) {
@@ -59,7 +59,7 @@ const DataCard = ({ name, data, dataParameter, threshold, time }) => {
   return (
     <>
       <div
-        className={` ${styles.bg} ${styles.font} py-5 px-8 rounded-md flex flex-col gap-5 w-96`}
+        className={` ${styles.bg} ${styles.font} py-5 px-8 rounded-lg flex flex-col gap-5 w-96`}
       >
         <div className="flex justify-between">
           <p className="text-lg font-normal font-jakarta">{name} Reading</p>

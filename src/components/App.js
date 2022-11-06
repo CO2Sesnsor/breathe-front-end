@@ -3,17 +3,15 @@ import "./App.css";
 
 import Home from "./home";
 import Postingcard from "./posting-card";
-import Cards from "./cards";
+import Cards from "./home";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="center">
-      <Routes>
-        <Route path="/" element={<Cards />} />
-        <Route path="/postdata" element={<Postingcard />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Cards />} />
+      <Route path="/postdata" element={<Postingcard />} />
+    </Routes>
   );
 }
 
