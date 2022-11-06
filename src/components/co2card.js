@@ -1,5 +1,5 @@
 const CO2 = () => {
-  return <p>CO2</p>;
+  return <p>hello</p>;
 };
 
 export default CO2;
