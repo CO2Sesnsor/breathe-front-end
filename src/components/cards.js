@@ -4,6 +4,16 @@ import sensorReadingsAPI from "../api/sensorReadings";
 const Cards = () => {
   const [reading, setReading] = useState([]);
   const [time, setTime] = useState();
+  const [styles, setStyles] = useState({
+    co2: {
+      bg: "",
+      font: "",
+    },
+    voc: {
+      bg: "",
+      font: "",
+    },
+  });
 
   const setData = () => {
     const getData = async () => {
@@ -32,8 +42,6 @@ const Cards = () => {
   let previousCO2Reading = reading[reading.length - 2]["co2"];
   let percentChange =
     ((recentCO2Reading - previousCO2Reading) / previousCO2Reading) * 100;
-  let cardColorCO2 = "";
-  let fontColorCO2 = "";
   if (recentCO2Reading < 1000) {
     cardColorCO2 = "bg-green-200";
     fontColorCO2 = "text-green-700";
