@@ -10,9 +10,8 @@ function App() {
   return (
     <div className="center">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Cards />} />
         <Route path="/postdata" element={<Postingcard />} />
-        <Route path="/cards" element={<Cards />} />
       </Routes>
     </div>
   );

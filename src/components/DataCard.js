@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-const VOC = ({ data, time }) => {
+
+const DataCard = ({ name, data, dataParameter, threshold, time }) => {
+  // console.log(threshold);
   const [lastReading, setLastReading] = useState();
   const [prevReading, setPrevReading] = useState();
   const [percentChange, setPercentChange] = useState();
@@ -12,8 +14,8 @@ const VOC = ({ data, time }) => {
   useEffect(() => {
     if (data.length === 0) return;
 
-    let lastReading = data[data.length - 1]["voc"];
-    let prevReading = data[data.length - 2]["voc"];
+    let lastReading = data[data.length - 1][dataParameter];
+    let prevReading = data[data.length - 2][dataParameter];
     setLastReading(lastReading);
     setPrevReading(prevReading);
     let percentChange = (
@@ -22,24 +24,6 @@ const VOC = ({ data, time }) => {
     ).toFixed(2);
     setPercentChange(percentChange);
 
-    if (lastReading < 1000) {
-      setStyles({
-        ...styles,
-        bg: "bg-green-200",
-        font: "text-green-700",
-      });
-    } else if (lastReading > 1000 && lastReading < 2000) {
-      // cardColorCO2 = "bg-orange-200";
-      // fontColorCO2 = "text-orange-700";
-      setStyles({
-        ...styles,
-        bg: "bg-orange-200",
-        font: "text-orange-700",
-      });
-    } else if (lastReading > 2000) {
-      // cardColorCO2 = "bg-red-200";
-      // fontColorCO2 = "text-red-700";
-    }
     if (percentChange > 0) {
       setStyles({
         ...styles,
@@ -51,6 +35,28 @@ const VOC = ({ data, time }) => {
         percentFont: "text-red-700",
       });
     }
+    if (lastReading < threshold.good) {
+      setStyles({
+        ...styles,
+        bg: "bg-green-200",
+        font: "text-green-700",
+      });
+    } else if (
+      lastReading > threshold.good &&
+      lastReading < threshold.moderate
+    ) {
+      setStyles({
+        ...styles,
+        bg: "bg-orange-200",
+        font: "text-orange-700",
+      });
+    } else if (lastReading > threshold.moderate) {
+      setStyles({
+        ...styles,
+        bg: "bg-red-200",
+        font: "text-red-700",
+      });
+    }
   }, [data]);
 
   return (
@@ -59,7 +65,7 @@ const VOC = ({ data, time }) => {
         className={` ${styles.bg} ${styles.font} py-5 px-8 rounded-md flex flex-col gap-5 w-96`}
       >
         <div className="flex justify-between">
-          <p className="text-lg font-normal font-jakarta">VOC Reading</p>
+          <p className="text-lg font-normal font-jakarta">{name} Reading</p>
           <p className="text-lg font-normal font-jakarta">{time}</p>
         </div>
         <div className="flex justify-between">
@@ -82,4 +88,4 @@ const VOC = ({ data, time }) => {
   );
 };
 
-export default VOC;
+export default DataCard;
