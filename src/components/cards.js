@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import sensorReadingsAPI from "../api/sensorReadings";
+import CO2 from "./co2card";
 
 const Cards = () => {
   const [reading, setReading] = useState([]);
@@ -64,6 +65,7 @@ const Cards = () => {
         </div>
         <p>{percentChange}</p>
       </div>
+      <CO2 />
     </>
   );
 };
