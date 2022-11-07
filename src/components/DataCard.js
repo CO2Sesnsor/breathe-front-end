@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import emailjs from "@emailjs/browser";
 const DataCard = ({ name, data, dataParameter, threshold, time, unit }) => {
   // console.log(threshold);
   const [lastReading, setLastReading] = useState();
@@ -42,6 +42,13 @@ const DataCard = ({ name, data, dataParameter, threshold, time, unit }) => {
     } else if (lastReading > threshold.moderate) {
       tempStyles.bg = "bg-red-200";
       tempStyles.font = "text-red-700";
+      // let templateParams = { co2: lastReading };
+      // emailjs.send(
+      //   "service_hfb6ozr",
+      //   "template_3ny9bd8",
+      //   templateParams,
+      //   "_rrXh9YQhOSypf4lh"
+      // );
     }
     if (percentChange > 0) {
       tempStyles.percentFont = "text-green-700";
