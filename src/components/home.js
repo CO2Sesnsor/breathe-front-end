@@ -43,11 +43,12 @@ const Cards = () => {
         <Nav />
         <div className="flex flex-col gap-5 items-center justify-center">
           <DataCard
-            name="CO2"
+            name="CO₂"
             data={reading}
             dataParameter="co2"
             threshold={thresholds.co2}
             time={time}
+            unit="PPM"
           />
           <DataCard
             name="VOC"
@@ -55,6 +56,7 @@ const Cards = () => {
             dataParameter="voc"
             threshold={thresholds.voc}
             time={time}
+            unit="mg/m³"
           />
         </div>
       </div>

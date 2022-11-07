@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const DataCard = ({ name, data, dataParameter, threshold, time }) => {
+const DataCard = ({ name, data, dataParameter, threshold, time, unit }) => {
   // console.log(threshold);
   const [lastReading, setLastReading] = useState();
   const [prevReading, setPrevReading] = useState();
@@ -70,8 +70,8 @@ const DataCard = ({ name, data, dataParameter, threshold, time }) => {
             <p className="text-5xl font-bold font-jakarta">
               {JSON.stringify(lastReading)}
             </p>
-            <p className="text-2xl font-normal flex items-end font-jakarta">
-              PPM
+            <p className="text-xl font-normal flex items-end font-jakarta">
+              {unit}
             </p>
           </div>
           <p
