@@ -42,6 +42,7 @@ const DataCard = ({ name, data, dataParameter, threshold, time, unit }) => {
     } else if (lastReading > threshold.moderate) {
       tempStyles.bg = "bg-red-200";
       tempStyles.font = "text-red-700";
+      //mailer code
       // let templateParams = { co2: lastReading };
       // emailjs.send(
       //   "service_hfb6ozr",
