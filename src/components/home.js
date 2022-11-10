@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import sensorReadingsAPI from "../api/sensorReadings";
 import DataCard from "./DataCard";
 import Nav from "./nav";
