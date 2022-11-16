@@ -34,12 +34,12 @@ const DataCard = ({ name, data, dataParameter, threshold, time, unit }) => {
       tempStyles.bg = "bg-green-200";
       tempStyles.font = "text-green-700";
     } else if (
-      lastReading > threshold.good &&
+      lastReading >= threshold.good &&
       lastReading < threshold.moderate
     ) {
       tempStyles.bg = "bg-orange-200";
       tempStyles.font = "text-orange-700";
-    } else if (lastReading > threshold.moderate) {
+    } else if (lastReading >= threshold.moderate) {
       tempStyles.bg = "bg-red-200";
       tempStyles.font = "text-red-700";
       //mailer code
