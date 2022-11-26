@@ -1,23 +1,20 @@
 import { supabase } from "../supabase";
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 
 const Realtime = () => {
-  const handleNewTask = (payload) => {
-    console.log("reading......");
-  };
-
-  const taskListener = supabase
-    .from("data")
-    .on("*", (payload) => handleNewTask(payload.new))
-    .subscribe();
-
   useEffect(() => {
-    const taskListener = supabase
-      .from("data")
-      .on("INSERT", (payload) => handleNewTask(payload.new))
-      .subscribe();
+    supabase
+      .channel("public:data")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "data" },
+        (payload) => {
+          console.log("Change received!", payload.new.co2);
+        }
+      )
+      .subscribe((status) => console.log(`status: ${status}`));
 
-    return taskListener.unsubscribe();
+    // taskListener.unsubscribe();
   }, []);
   return <h1>Realtime</h1>;
 };
