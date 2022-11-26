@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const sensorReadings = axios.create({
-  // baseURL: "https://breathe-api-eta.vercel.app/",
-  baseURL: "http://localhost:3000",
+  baseURL: "https://breathe-api-eta.vercel.app/",
 });
 
 const getReadings = async () => {
