@@ -21,8 +21,6 @@ const Cards = () => {
     },
   };
 
-  console.log("poo");
-
   // useEffect(() => {
   //   const myInterval = setInterval(() => {
   //     setTime(new Date().toLocaleTimeString());
@@ -71,14 +69,16 @@ const Cards = () => {
             threshold={thresholds.co2}
             unit="PPM"
           />
-          {/* <DataCard
-            name="VOC"
-            current={current}
-            prev={prevReading}
-            dataParameter="voc"
-            threshold={thresholds.voc}
-            unit="mg/m³"
-          /> */}
+          {
+            <DataCard
+              name="VOC"
+              current={current}
+              prev={prevReading}
+              dataParameter="voc"
+              threshold={thresholds.voc}
+              unit="mg/m³"
+            />
+          }
         </div>
         <h1>{JSON.stringify(current)}</h1>
         <h1>{JSON.stringify(prevReading)}</h1>
