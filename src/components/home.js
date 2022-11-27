@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import { supabase } from "../supabase";
 import sensorReadingsAPI from "../api/sensorReadings";
 import DataCard from "./DataCard";
 import Nav from "./nav";
+import readings from "../api/sensorReadings";
 
 const Cards = () => {
-  const [reading, setReading] = useState([]);
+  const [reading, setReadings] = useState([]);
+  const [current, setCurrentReading] = useState([]);
+  const [prevReading, setPrevReading] = useState([]);
   const [time, setTime] = useState();
   const thresholds = {
     co2: {
@@ -16,26 +20,43 @@ const Cards = () => {
       moderate: 500,
     },
   };
-  const setData = () => {
-    const getData = async () => {
-      const data = await sensorReadingsAPI.getReadings();
-      // console.log("making request", data);
-      setReading(data);
-    };
-    getData();
-  };
+
+  console.log("poo");
+
+  // useEffect(() => {
+  //   const myInterval = setInterval(() => {
+  //     setTime(new Date().toLocaleTimeString());
+  //     setData();
+  //   }, 1000);
+
+  //   // Clear side-effect when component unmount (componentWillUnmount)
+  //   return () => {
+  //     clearInterval(myInterval);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    const myInterval = setInterval(() => {
-      setTime(new Date().toLocaleTimeString());
-      setData();
-    }, 1000);
-
-    // Clear side-effect when component unmount (componentWillUnmount)
-    return () => {
-      clearInterval(myInterval);
-    };
+    supabase
+      .channel("public:data")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "data" },
+        (payload) => {
+          setCurrentReading(payload);
+        }
+      )
+      .subscribe((status) => console.log(`status: ${status}`));
   }, []);
+
+  useEffect(() => {
+    console.log("set");
+    const getData = async () => {
+      const data = await sensorReadingsAPI.getReadings();
+      setPrevReading(data[data.length - 1]);
+    };
+    getData();
+    setPrevReading(reading[reading.length - 1]);
+  }, [current]);
 
   return (
     <>
@@ -44,21 +65,23 @@ const Cards = () => {
         <div className="flex flex-col gap-5 items-center justify-center">
           <DataCard
             name="CO₂"
-            data={reading}
+            current={current}
+            prev={prevReading}
             dataParameter="co2"
             threshold={thresholds.co2}
-            time={time}
             unit="PPM"
           />
-          <DataCard
+          {/* <DataCard
             name="VOC"
-            data={reading}
+            current={current}
+            prev={prevReading}
             dataParameter="voc"
             threshold={thresholds.voc}
-            time={time}
             unit="mg/m³"
-          />
+          /> */}
         </div>
+        <h1>{JSON.stringify(current)}</h1>
+        <h1>{JSON.stringify(prevReading)}</h1>
       </div>
     </>
   );
