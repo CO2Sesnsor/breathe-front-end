@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
 const DataCard = ({ name, current, prev, dataParameter, threshold, unit }) => {
   const [currentReading, setcurrentReading] = useState();
-  // const [prevReading, setPrevReading] = useState();
   const [percentChange, setPercentChange] = useState();
   const [styles, setStyles] = useState({
     bg: "",
