@@ -8,6 +8,7 @@ import Nav from "./nav";
 const Cards = () => {
   const [loading, setLoading] = useState(false);
   const [current, setCurrentReading] = useState([]);
+  const [readings, setReadings] = useState([]);
   const [prevReading, setPrevReading] = useState([]);
 
   const thresholds = {
@@ -22,6 +23,13 @@ const Cards = () => {
   };
 
   useEffect(() => {
+    const getData = async () => {
+      const data = await sensorReadingsAPI.getReadings();
+      setReadings(data);
+    };
+    getData();
+  }, []);
+  useEffect(() => {
     setLoading(true);
     supabase
       .channel("public:data")
@@ -31,26 +39,19 @@ const Cards = () => {
         (payload) => {
           setCurrentReading(payload);
           setLoading(false);
+          setPrevReading(readings[readings.length - 1]);
+          readings.push(payload.new);
         }
       )
       .subscribe();
   }, []);
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await sensorReadingsAPI.getReadings();
-      setPrevReading(data[data.length - 1]);
-      console.log(data);
-    };
-    getData();
-  }, [current]);
-
   return (
     <>
       {loading ? (
         <div className="flex flex-col p-0 m-0 min-h-screen max-w-full justify-center items-center gap-8">
-          <div class="loader"></div>
-          <div class="loading">Getting Readings</div>
+          <div className="loader"></div>
+          <div className="loading">Getting Readings</div>
         </div>
       ) : (
         <div className="flex flex-col gap-5">
@@ -75,8 +76,6 @@ const Cards = () => {
               />
             }
           </div>
-          <h1>{JSON.stringify(current)}</h1>
-          <h1>{JSON.stringify(prevReading)}</h1>
         </div>
       )}
     </>
