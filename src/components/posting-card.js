@@ -21,7 +21,6 @@ const Postingcard = () => {
   const addReading = () => {
     // sensorReadingsAPI.postReading(inputRef.current.value);
     const readingsJSON = {
-      timestamp: time,
       co2: co2Ref.current.value,
       voc: vocRef.current.value,
     };
