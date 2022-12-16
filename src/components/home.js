@@ -5,7 +5,7 @@ import sensorReadingsAPI from "../api/sensorReadings";
 import DataCard from "./DataCard";
 import Nav from "./nav";
 
-const Cards = () => {
+const Home = () => {
   const [loading, setLoading] = useState(false);
   const [current, setCurrentReading] = useState([]);
   const [readings, setReadings] = useState([]);
@@ -24,14 +24,35 @@ const Cards = () => {
   };
 
   useEffect(() => {
+    const myInterval = setInterval(() => {
+      let randCO = Math.floor(Math.random() * 3000);
+      let randVOC = Math.floor(Math.random() * 600);
+
+      let readingJSON = {
+        co2: randCO,
+        voc: randVOC,
+      };
+
+      // console.log(`data:${JSON.stringify(readingJSON)}`);
+      sensorReadingsAPI.postReading(readingJSON);
+      return 0;
+    }, 30000);
+
+    // Clear side-effect when component unmount (componentWillUnmount)
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, [firstDataLoad]);
+
+  useEffect(() => {
     const getData = async () => {
       const data = await sensorReadingsAPI.getReadings();
       setReadings(data);
       setFirstDataLoad(true);
-      // console.log(data);
     };
     getData();
   }, []);
+
   useEffect(() => {
     setLoading(true);
     supabase
@@ -52,7 +73,7 @@ const Cards = () => {
   }, [firstDataLoad]);
 
   useEffect(() => {
-    console.log(readings);
+    console.log(`ALL:${JSON.stringify(readings)}`);
   }, [readings]);
 
   return (
@@ -91,4 +112,4 @@ const Cards = () => {
   );
 };
 
-export default Cards;
+export default Home;

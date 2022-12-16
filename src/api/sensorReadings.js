@@ -10,7 +10,7 @@ const getReadings = async () => {
 };
 
 const postReading = async (reading) => {
-  console.log(reading);
+  console.log(`POST:${JSON.stringify(reading)}`);
   const response = await sensorReadings.post("/api/data", reading, {
     headers: { "Content-Type": "application/json" },
   });
