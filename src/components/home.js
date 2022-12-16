@@ -10,6 +10,7 @@ const Cards = () => {
   const [current, setCurrentReading] = useState([]);
   const [readings, setReadings] = useState([]);
   const [prevReading, setPrevReading] = useState([]);
+  const [firstDataLoad, setFirstDataLoad] = useState(false);
 
   const thresholds = {
     co2: {
@@ -26,6 +27,8 @@ const Cards = () => {
     const getData = async () => {
       const data = await sensorReadingsAPI.getReadings();
       setReadings(data);
+      setFirstDataLoad(true);
+      // console.log(data);
     };
     getData();
   }, []);
@@ -38,13 +41,21 @@ const Cards = () => {
         { event: "INSERT", schema: "public", table: "data" },
         (payload) => {
           setCurrentReading(payload);
-          setLoading(false);
           setPrevReading(readings[readings.length - 1]);
-          readings.push(payload.new);
+          // readings.push(payload.new);
+          const updatedReadings = Object.assign(readings);
+          updatedReadings.push(payload.new);
+          setReadings(updatedReadings);
+          setLoading(false);
+          console.log("re");
         }
       )
       .subscribe();
-  }, []);
+  }, [firstDataLoad]);
+
+  useEffect(() => {
+    console.log(readings);
+  }, [readings]);
 
   return (
     <>
@@ -65,16 +76,15 @@ const Cards = () => {
               threshold={thresholds.co2}
               unit="PPM"
             />
-            {
-              <DataCard
-                name="VOC"
-                current={current}
-                prev={prevReading}
-                dataParameter="voc"
-                threshold={thresholds.voc}
-                unit="mg/m³"
-              />
-            }
+
+            <DataCard
+              name="VOC"
+              current={current}
+              prev={prevReading}
+              dataParameter="voc"
+              threshold={thresholds.voc}
+              unit="mg/m³"
+            />
           </div>
         </div>
       )}

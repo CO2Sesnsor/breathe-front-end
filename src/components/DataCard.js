@@ -8,10 +8,8 @@ const DataCard = ({ name, current, prev, dataParameter, threshold, unit }) => {
     font: "",
     percentFont: "",
   });
-
   useEffect(() => {
     if (current.length === 0) return;
-
     let currentReading = current.new[dataParameter];
     let prevReading = prev[dataParameter];
     setcurrentReading(currentReading);
