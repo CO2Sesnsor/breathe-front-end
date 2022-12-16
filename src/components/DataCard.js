@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
-const DataCard = ({ name, current, prev, dataParameter, threshold, unit }) => {
+const DataCard = ({
+  name,
+  current,
+  prev,
+  dataParameter,
+  threshold,
+  unit,
+  loading,
+}) => {
   const [currentReading, setcurrentReading] = useState();
   const [percentChange, setPercentChange] = useState();
   const [styles, setStyles] = useState({
-    bg: "",
-    font: "",
+    bg: "border",
+    font: "font-semibold",
     percentFont: "",
   });
   useEffect(() => {
@@ -69,21 +77,29 @@ const DataCard = ({ name, current, prev, dataParameter, threshold, unit }) => {
           <div className="flex justify-between">
             <p className="text-lg font-normal font-jakarta">{name} Reading</p>
           </div>
-          <div className="flex justify-between">
-            <div className="flex gap-1">
-              <p className="text-5xl font-bold font-jakarta">
-                {JSON.stringify(currentReading)}
-              </p>
-              <p className="text-xl font-normal flex items-end font-jakarta">
-                {unit}
+          {loading ? (
+            <div className="flex items-center gap-5">
+              <div className="loading font-arial font-thin text-slate-300">
+                Getting Reading
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-between">
+              <div className="flex gap-1">
+                <p className="text-5xl font-bold font-jakarta">
+                  {JSON.stringify(currentReading)}
+                </p>
+                <p className="text-xl font-normal flex items-end font-jakarta">
+                  {unit}
+                </p>
+              </div>
+              <p
+                className={` ${styles.percentFont} text-lg font-normal font-jakarta flex flex-col justify-end`}
+              >
+                {percentChange}%
               </p>
             </div>
-            <p
-              className={` ${styles.percentFont} text-lg font-normal font-jakarta flex flex-col justify-end`}
-            >
-              {percentChange}%
-            </p>
-          </div>
+          )}
         </div>
       }
     </>
