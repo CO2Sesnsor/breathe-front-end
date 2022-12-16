@@ -2,8 +2,9 @@ import "./loader.css";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase";
 import sensorReadingsAPI from "../api/sensorReadings";
-import DataCard from "./DataCard";
 import Nav from "./nav";
+import DataCard from "./DataCard";
+import Chart from "./chart";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ const Home = () => {
       // console.log(`data:${JSON.stringify(readingJSON)}`);
       sensorReadingsAPI.postReading(readingJSON);
       return 0;
-    }, 30000);
+    }, 5000);
 
     // Clear side-effect when component unmount (componentWillUnmount)
     return () => {
@@ -72,9 +73,9 @@ const Home = () => {
       .subscribe();
   }, [firstDataLoad]);
 
-  useEffect(() => {
-    console.log(`ALL:${JSON.stringify(readings)}`);
-  }, [readings]);
+  // useEffect(() => {
+  //   console.log(readings);
+  // }, [readings]);
 
   return (
     <>
@@ -105,6 +106,7 @@ const Home = () => {
             unit="mg/m³"
             loading={loading}
           />
+          <Chart readings={readings} />
         </div>
       </div>
       {/* )} */}
