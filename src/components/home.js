@@ -42,12 +42,10 @@ const Cards = () => {
         (payload) => {
           setCurrentReading(payload);
           setPrevReading(readings[readings.length - 1]);
-          // readings.push(payload.new);
           const updatedReadings = Object.assign(readings);
           updatedReadings.push(payload.new);
           setReadings(updatedReadings);
           setLoading(false);
-          console.log("re");
         }
       )
       .subscribe();
@@ -59,35 +57,36 @@ const Cards = () => {
 
   return (
     <>
-      {loading ? (
+      {/* {loading ? (
         <div className="flex flex-col p-0 m-0 min-h-screen max-w-full justify-center items-center gap-8">
           <div className="loader"></div>
           <div className="loading">Getting Readings</div>
         </div>
-      ) : (
-        <div className="flex flex-col gap-5">
-          <Nav />
-          <div className="flex flex-col gap-5 items-center justify-center">
-            <DataCard
-              name="CO₂"
-              current={current}
-              prev={prevReading}
-              dataParameter="co2"
-              threshold={thresholds.co2}
-              unit="PPM"
-            />
-
-            <DataCard
-              name="VOC"
-              current={current}
-              prev={prevReading}
-              dataParameter="voc"
-              threshold={thresholds.voc}
-              unit="mg/m³"
-            />
-          </div>
+      ) : ( */}
+      <div className="flex flex-col gap-5">
+        <Nav />
+        <div className="flex flex-col gap-5 items-center justify-center">
+          <DataCard
+            name="CO₂"
+            current={current}
+            prev={prevReading}
+            dataParameter="co2"
+            threshold={thresholds.co2}
+            unit="PPM"
+            loading={loading}
+          />
+          <DataCard
+            name="VOC"
+            current={current}
+            prev={prevReading}
+            dataParameter="voc"
+            threshold={thresholds.voc}
+            unit="mg/m³"
+            loading={loading}
+          />
         </div>
-      )}
+      </div>
+      {/* )} */}
     </>
   );
 };
