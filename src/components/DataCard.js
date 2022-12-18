@@ -72,10 +72,10 @@ const DataCard = ({
     <>
       {
         <div
-          className={` ${styles.bg} ${styles.font} py-5 px-8 rounded-lg flex flex-col gap-5 w-96`}
+          className={` ${styles.bg} ${styles.font} py-5 px-8 rounded-lg flex flex-col gap-5 w-full`}
         >
           <div className="flex justify-between">
-            <p className="text-lg font-normal font-jakarta">{name} Reading</p>
+            <p className="text-lg font-normal font-jakarta">{name}</p>
           </div>
           {loading ? (
             <div className="flex items-center gap-5">
@@ -86,15 +86,15 @@ const DataCard = ({
           ) : (
             <div className="flex justify-between">
               <div className="flex gap-1">
-                <p className="text-5xl font-bold font-jakarta">
+                <p className="text-4xl font-bold font-jakarta">
                   {JSON.stringify(currentReading)}
                 </p>
-                <p className="text-xl font-normal flex items-end font-jakarta">
+                <p className="text-lg font-normal flex items-end font-jakarta">
                   {unit}
                 </p>
               </div>
               <p
-                className={` ${styles.percentFont} text-lg font-normal font-jakarta flex flex-col justify-end`}
+                className={` ${styles.percentFont} text-sm font-normal font-jakarta flex flex-col justify-end`}
               >
                 {percentChange}%
               </p>
