@@ -31,6 +31,8 @@ const Chart = ({ readings }) => {
     setVocValues(voc);
     setTimeValues(time);
 
+
+
   }, [JSON.stringify(readings)]);
 
   const options = {
@@ -79,11 +81,20 @@ const Chart = ({ readings }) => {
       },
       y: {
         title: {
-          text: "Value",
+          text: "CO2",
           display: true,
         },
         min: 0,
       },
+
+      y1: {
+        title: {
+          text: "VOC",
+          display: true,
+        },
+        min: 0,
+        position: "right",
+      }
     }
   };
 
@@ -100,6 +111,7 @@ const Chart = ({ readings }) => {
         hitRadius: 20,
         tension: 0.2,
         borderCapStyle: "round",
+        yAxisID: "y",
       },
       { 
         label: "VOC (ppb)",
@@ -111,6 +123,7 @@ const Chart = ({ readings }) => {
         hitRadius: 20,
         tension: 0.2,
         borderCapStyle: "round",
+        yAxisID: "y1",
       },
     ],
   };
