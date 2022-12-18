@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import zoomPlugin from 'chartjs-plugin-zoom';
 import {
   Chart as ChartJS,
   LineElement,
@@ -9,7 +10,7 @@ import {
   Legend,
 } from "chart.js";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, zoomPlugin);
 
 const Chart = ({ readings }) => {
   const [co2Values, setCo2Values] = useState([]);
@@ -29,45 +30,94 @@ const Chart = ({ readings }) => {
     setCo2Values(co2);
     setVocValues(voc);
     setTimeValues(time);
+
   }, [JSON.stringify(readings)]);
-  useEffect(() => {
-    // console.log(co2Values);
-    console.log(readings);
-  }, [co2Values]);
+
   const options = {
     responsive: true,
     plugins: {
-      legend: true,
+      title: {
+        text: "CO2 Line chart",
+        display: true,
+        padding: {
+          top: 20,
+          bottom: 20,
+        },
+      },
+      legend: {
+        position: "bottom",
+        labels: {
+          padding: 40,
+        },
+      },
+      zoom:{
+        zoom:{
+          wheel:{
+            enabled: true,
+            speed: 0.05,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: 'xy',
+        },
+        pan:{
+          enabled: true,
+        }
+      }
     },
+    scales: {
+      x: {
+        title: {
+          text: "Time (HH:MM:SS)",
+          display: true,
+        },
+
+        ticks:{
+          maxTicksLimit: 20,
+        }
+      },
+      y: {
+        title: {
+          text: "Value",
+          display: true,
+        },
+        min: 0,
+      },
+    }
   };
+
   const data = {
     labels: timeValues,
     datasets: [
       {
-        label: "CO₂",
+        label: "CO₂ (pmm)",
         data: co2Values,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: ["#7eabf2"],
+        borderColor: "#7eabf2",
+        borderWidth: 1.5,
+        radius: 1,
+        hitRadius: 20,
+        tension: 0.2,
+        borderCapStyle: "round",
       },
-      {
-        label: "VOC",
+      { 
+        label: "VOC (ppb)",
         data: vocValues,
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: ["#ff6666"],
+        borderColor: "#ff6666",
+        borderWidth: 1.5,
+        radius: 1,
+        hitRadius: 20,
+        tension: 0.2,
+        borderCapStyle: "round",
       },
     ],
   };
 
   return (
     <div>
-      {/* <h1>{JSON.stringify(co2Values)}</h1>
-      <p>{co2Values.length}</p>
-      <h1>{JSON.stringify(vocValues)}</h1>
-      <p>{vocValues.length}</p>
-      <h1>{JSON.stringify(timeValues)}</h1>
-      <p>{timeValues.length}</p>
-      <h1>{JSON.stringify(readings)}</h1> */}
-      <Line data={data} options={options} />
+      <Line data={data} options={options} style={{"height" : "500px"}} />
     </div>
   );
 };
