@@ -30,85 +30,32 @@ const Chart = ({ readings }) => {
     setVocValues(voc);
     setTimeValues(time);
   }, [JSON.stringify(readings)]);
-
-  // useEffect(() => {
-  //   console.log(readings);
-  // }, [co2Values]);
-
+  useEffect(() => {
+    // console.log(co2Values);
+    console.log(readings);
+  }, [co2Values]);
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: true,
+    },
+  };
   const data = {
     labels: timeValues,
     datasets: [
-      //CO2 plot
       {
         label: "CO₂",
         data: co2Values,
         borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "#fda4af",
-        borderColor: "#fda4af",
-        borderCapStyle: "round",
-        tension: 0.4,
-        pointRadius: (ctx) => {
-          const pointsLength = ctx.chart.data.labels.length - 1;
-          const pointsArray = [];
-
-          for (let i = 0; i <= pointsLength; i++) {
-            if (i === pointsLength) {
-              pointsArray.push(3);
-            } else {
-              pointsArray.push(0);
-            }
-          }
-          return pointsArray;
-        },
-        pointBackgroundColor: "rgba(255, 99, 132, 1)",
-        yAxisID: "PPM",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
-      //VOC PLOT
       {
         label: "VOC",
         data: vocValues,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
-        borderCapStyle: "round",
-        tension: 0.4,
-        yAxisID: "PPB",
-        pointRadius: (ctx) => {
-          const pointsLength = ctx.chart.data.labels.length - 1;
-          const pointsArray = [];
-
-          for (let i = 0; i <= pointsLength; i++) {
-            if (i === pointsLength) {
-              pointsArray.push(3);
-            } else {
-              pointsArray.push(0);
-            }
-          }
-          return pointsArray;
-        },
       },
     ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-      },
-    },
-    scales: {
-      PPM: {
-        // title: {
-        //   text: "PPM",
-        //   display: true,
-        //   padding: 0,
-        //   margin: 0,
-        // },
-        beginAtZero: true,
-        type: "linear",
-        position: "right",
-      },
-    },
   };
 
   return (
@@ -120,10 +67,7 @@ const Chart = ({ readings }) => {
       <h1>{JSON.stringify(timeValues)}</h1>
       <p>{timeValues.length}</p>
       <h1>{JSON.stringify(readings)}</h1> */}
-
-      <Line data={data} options={options} width={"fill"} height={"300"} />
-
-      {/* <Line width={"600px"} height={"600"} data={data} options={options} /> */}
+      <Line data={data} options={options} />
     </div>
   );
 };

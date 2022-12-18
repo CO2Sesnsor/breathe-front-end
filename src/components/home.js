@@ -24,32 +24,30 @@ const Home = () => {
     },
   };
 
-  // useEffect(() => {
-  //   const myInterval = setInterval(() => {
-  //     let randCO = Math.floor(Math.random() * 3000);
-  //     let randVOC = Math.floor(Math.random() * 600);
+  useEffect(() => {
+    const myInterval = setInterval(() => {
+      let randCO = Math.floor(Math.random() * 3000);
+      let randVOC = Math.floor(Math.random() * 600);
 
-  //     let readingJSON = {
-  //       co2: randCO,
-  //       voc: randVOC,
-  //     };
+      let readingJSON = {
+        co2: randCO,
+        voc: randVOC,
+      };
 
-  //     // console.log(`data:${JSON.stringify(readingJSON)}`);
-  //     sensorReadingsAPI.postReading(readingJSON);
-  //     return 0;
-  //   }, 5000);
+      // console.log(`data:${JSON.stringify(readingJSON)}`);
+      sensorReadingsAPI.postReading(readingJSON);
+      return 0;
+    }, 5000);
 
-  // Clear side-effect when component unmount (componentWillUnmount)
-  //   return () => {
-  //     clearInterval(myInterval);
-  //   };
-  // }, [firstDataLoad]);
+    // Clear side-effect when component unmount (componentWillUnmount)
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, [firstDataLoad]);
 
   useEffect(() => {
     const getData = async () => {
       const data = await sensorReadingsAPI.getReadings();
-      console.log("data:");
-      console.log(data.length);
       setReadings(data);
       setFirstDataLoad(true);
     };
@@ -65,11 +63,7 @@ const Home = () => {
         { event: "INSERT", schema: "public", table: "data" },
         (payload) => {
           setCurrentReading(payload);
-          if (readings.length === 0) {
-            setPrevReading(payload.new);
-          } else {
-            setPrevReading(readings[readings.length - 1]);
-          }
+          setPrevReading(readings[readings.length - 1]);
           const updatedReadings = Object.assign(readings);
           updatedReadings.push(payload.new);
           setReadings(updatedReadings);
@@ -91,32 +85,29 @@ const Home = () => {
           <div className="loading">Getting Readings</div>
         </div>
       ) : ( */}
-      <div className="px-6 flex flex-col gap-5 items-center justify-center">
-        <p className="font-jakarta flex w-full justify-start font-bold text-lg">
-          Readings
-        </p>
-        <DataCard
-          name="CO₂"
-          current={current}
-          prev={prevReading}
-          dataParameter="co2"
-          threshold={thresholds.co2}
-          unit="PPM"
-          loading={loading}
-        />
-        <DataCard
-          name="VOC"
-          current={current}
-          prev={prevReading}
-          dataParameter="voc"
-          threshold={thresholds.voc}
-          unit="mg/m³"
-          loading={loading}
-        />
-        <p className="font-jakarta flex w-full justify-start font-bold text-lg">
-          Chart
-        </p>
-        <Chart readings={readings} />
+      <div className="flex flex-col gap-5">
+        <Nav />
+        <div className="flex flex-col gap-5 items-center justify-center">
+          <DataCard
+            name="CO₂"
+            current={current}
+            prev={prevReading}
+            dataParameter="co2"
+            threshold={thresholds.co2}
+            unit="PPM"
+            loading={loading}
+          />
+          <DataCard
+            name="VOC"
+            current={current}
+            prev={prevReading}
+            dataParameter="voc"
+            threshold={thresholds.voc}
+            unit="mg/m³"
+            loading={loading}
+          />
+          <Chart readings={readings} />
+        </div>
       </div>
       {/* )} */}
     </>
