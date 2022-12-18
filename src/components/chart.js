@@ -17,6 +17,7 @@ const Chart = ({ readings }) => {
   const [timeValues, setTimeValues] = useState([]);
 
   useEffect(() => {
+    console.log(readings.length);
     let co2 = readings.map((current) => current["co2"]);
     let voc = readings.map((current) => current["voc"]);
     let time = readings.map((current) => {
