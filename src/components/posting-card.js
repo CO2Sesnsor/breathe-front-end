@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import readings from "../api/sensorReadings";
 import sensorReadingsAPI from "../api/sensorReadings";
 import Nav from "./nav";
 
 const Postingcard = () => {
+  const [co2Number, setco2Number] = useState(1);
+  const [vocNumber, setVocNumber] = useState(100);
   const [time, setTime] = useState();
   useEffect(() => {
     const myInterval = setInterval(() => {
@@ -18,6 +21,15 @@ const Postingcard = () => {
   const co2Ref = useRef();
   const vocRef = useRef();
 
+  const plus1 = () => {
+    const readingsJSON = {
+      co2: co2Number,
+      voc: vocNumber,
+    };
+    sensorReadingsAPI.postReading(readingsJSON);
+    setco2Number(co2Number + 1);
+    setVocNumber(vocNumber - 1);
+  };
   const addReading = () => {
     // sensorReadingsAPI.postReading(inputRef.current.value);
     const readingsJSON = {
@@ -58,6 +70,12 @@ const Postingcard = () => {
             onClick={addReading}
           >
             POST
+          </button>
+          <button
+            className="border rounded bg-blue-400 text-white"
+            onClick={plus1}
+          >
+            Reading +1
           </button>
         </div>
       </div>

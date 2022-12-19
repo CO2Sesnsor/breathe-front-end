@@ -12,24 +12,106 @@ import {
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend);
 
 const Chart = ({ readings }) => {
+  let co2AverageArr = [];
+  let vocAverageArr = [];
+  let timeAverageArr = [];
+  let readingsInOneMin = 10;
   const [co2Values, setCo2Values] = useState([]);
   const [vocValues, setVocValues] = useState([]);
   const [timeValues, setTimeValues] = useState([]);
 
+  function averageEvery(arr, n) {
+    // if we have neither an arr, or an n
+    // variable we quit here:
+    if (!arr || !n) {
+      return false;
+    }
+
+    // creating an variable by the name of 'groups'
+    // using an array-literal:
+    let groups = [];
+
+    // while the supplied Array ('arr') still
+    // has a non-zero length:
+    while (arr.length) {
+      // we remove the first elements of that
+      // Array from the index of 0 to the
+      // index supplied in the variable 'n':
+      groups.push(arr.splice(0, n));
+    }
+
+    // here we return the Array of averages, created
+    // using Array.prototype.map() to iterate over
+    // the Arrays held in the groups Array:
+    return groups.map(
+      // here we use Arrow functions, 'group'
+      // is a reference to the current Array-
+      // element, the Array from the Array of
+      // Arrays over which we're iterating:
+      (group) =>
+        // here we use Array.prototype.reduce()
+        // to sum the values of the Array:
+        group.reduce(
+          // 'a' : the accumulated value returned
+          // from the last iteration;
+          // 'b' : the current number of the Array
+          // of Numbers over which we're iterating:
+          (a, b) => a + b
+
+          // once we find the sum, we then divide that
+          // sum by the number of Array-elements to find
+          // the average:
+        ) / group.length
+    );
+  }
+
   useEffect(() => {
-    console.log(readings.length);
-    let co2 = readings.map((current) => current["co2"]);
-    let voc = readings.map((current) => current["voc"]);
-    let time = readings.map((current) => {
+    let co2Arr = readings.map((current) => current["co2"]);
+    let vocArr = readings.map((current) => current["voc"]);
+    let timeArr = readings.map((current) => {
       let currentTimeStamp = new Date(current["created_at"]);
       let hours = currentTimeStamp.getHours();
       let minutes = currentTimeStamp.getMinutes();
       let seconds = currentTimeStamp.getSeconds();
       return `${hours}:${minutes}:${seconds}`;
     });
-    setCo2Values(co2);
-    setVocValues(voc);
-    setTimeValues(time);
+
+    if (readings.length >= readingsInOneMin) {
+      co2AverageArr = co2Arr.splice(
+        0,
+        readings.length - (readings.length % readingsInOneMin)
+      );
+      vocAverageArr = vocArr.splice(
+        0,
+        readings.length - (readings.length % readingsInOneMin)
+      );
+      timeAverageArr = timeArr.splice(
+        0,
+        readings.length - (readings.length % readingsInOneMin)
+      );
+      timeAverageArr = timeAverageArr.filter(
+        (_, i) => i % readingsInOneMin == 0
+      );
+
+      co2Arr.unshift(averageEvery(co2AverageArr, readingsInOneMin));
+      let tempco2Arr = [].concat(...co2Arr);
+      co2Arr = tempco2Arr;
+
+      vocArr.unshift(averageEvery(vocAverageArr, readingsInOneMin));
+      let tempVocArr = [].concat(...vocArr);
+      vocArr = tempVocArr;
+
+      timeArr.unshift(timeAverageArr);
+      let tempTimeArr = [].concat(...timeArr);
+      timeArr = tempTimeArr;
+      // console.log(`AVG: ${co2AverageArr}`);
+      console.log(co2Arr);
+      // console.log(averageEvery(co2AverageArr, readingsInOneMin));
+    }
+
+    setCo2Values(co2Arr);
+    setVocValues(vocArr);
+    setTimeValues(timeArr);
   }, [JSON.stringify(readings)]);
 
   // useEffect(() => {
@@ -48,20 +130,20 @@ const Chart = ({ readings }) => {
         borderColor: "#fda4af",
         borderCapStyle: "round",
         tension: 0.4,
-        pointRadius: (ctx) => {
-          const pointsLength = ctx.chart.data.labels.length - 1;
-          const pointsArray = [];
+        // pointRadius: (ctx) => {
+        //   const pointsLength = ctx.chart.data.labels.length - 1;
+        //   const pointsArray = [];
 
-          for (let i = 0; i <= pointsLength; i++) {
-            if (i === pointsLength) {
-              pointsArray.push(3);
-            } else {
-              pointsArray.push(0);
-            }
-          }
-          return pointsArray;
-        },
-        pointBackgroundColor: "rgba(255, 99, 132, 1)",
+        //   for (let i = 0; i <= pointsLength; i++) {
+        //     if (i === pointsLength) {
+        //       pointsArray.push(3);
+        //     } else {
+        //       pointsArray.push(0);
+        //     }
+        //   }
+        //   return pointsArray;
+        // },
+        // pointBackgroundColor: "rgba(255, 99, 132, 1)",
         yAxisID: "PPM",
       },
       //VOC PLOT
@@ -122,7 +204,7 @@ const Chart = ({ readings }) => {
       <p>{timeValues.length}</p>
       <h1>{JSON.stringify(readings)}</h1> */}
 
-      <Line data={data} options={options} width={"fill"} height={"300"} />
+      <Line data={data} options={options} width={"full"} height={300} />
 
       {/* <Line width={"600px"} height={"600"} data={data} options={options} /> */}
     </div>

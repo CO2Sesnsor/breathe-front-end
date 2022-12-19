@@ -2,7 +2,6 @@ import "./loader.css";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase";
 import sensorReadingsAPI from "../api/sensorReadings";
-import Nav from "./nav";
 import DataCard from "./DataCard";
 import Chart from "./chart";
 
@@ -24,26 +23,25 @@ const Home = () => {
     },
   };
 
-  // useEffect(() => {
-  //   const myInterval = setInterval(() => {
-  //     let randCO = Math.floor(Math.random() * 3000);
-  //     let randVOC = Math.floor(Math.random() * 600);
+  useEffect(() => {
+    const myInterval = setInterval(() => {
+      let randCO = Math.floor(Math.random() * 3000);
+      let randVOC = Math.floor(Math.random() * 600);
 
-  //     let readingJSON = {
-  //       co2: randCO,
-  //       voc: randVOC,
-  //     };
+      let readingJSON = {
+        co2: randCO,
+        voc: randVOC,
+      };
 
-  //     // console.log(`data:${JSON.stringify(readingJSON)}`);
-  //     sensorReadingsAPI.postReading(readingJSON);
-  //     return 0;
-  //   }, 5000);
+      // console.log(`data:${JSON.stringify(readingJSON)}`);
+      sensorReadingsAPI.postReading(readingJSON);
+      return 0;
+    }, 6000);
 
-  // Clear side-effect when component unmount (componentWillUnmount)
-  //   return () => {
-  //     clearInterval(myInterval);
-  //   };
-  // }, [firstDataLoad]);
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, [firstDataLoad]);
 
   useEffect(() => {
     const getData = async () => {
