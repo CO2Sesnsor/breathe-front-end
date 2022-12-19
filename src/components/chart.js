@@ -15,7 +15,7 @@ const Chart = ({ readings }) => {
   let co2AverageArr = [];
   let vocAverageArr = [];
   let timeAverageArr = [];
-  let readingsInOneMin = 10;
+  let readingsInOneMin = 4;
   const [co2Values, setCo2Values] = useState([]);
   const [vocValues, setVocValues] = useState([]);
   const [timeValues, setTimeValues] = useState([]);

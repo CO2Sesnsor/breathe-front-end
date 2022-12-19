@@ -36,7 +36,7 @@ const Home = () => {
       // console.log(`data:${JSON.stringify(readingJSON)}`);
       sensorReadingsAPI.postReading(readingJSON);
       return 0;
-    }, 6000);
+    }, 15000);
 
     return () => {
       clearInterval(myInterval);
