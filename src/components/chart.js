@@ -24,14 +24,20 @@ const Chart = ({ readings }) => {
       let currentTimeStamp = new Date(current["created_at"]);
       let hours = currentTimeStamp.getHours();
       let minutes = currentTimeStamp.getMinutes();
-      let seconds = currentTimeStamp.getSeconds();
-      return `${hours}:${minutes}:${seconds}`;
+      //let seconds = currentTimeStamp.getSeconds();
+      return `${hours}:${minutes}`;
     });
     setCo2Values(co2);
     setVocValues(voc);
     setTimeValues(time);
 
+    console.log(readings);
 
+    let minAmount = 20;
+
+    if (readings.length > minAmount){
+      readings.shift();
+    }
 
   }, [JSON.stringify(readings)]);
 
@@ -71,7 +77,7 @@ const Chart = ({ readings }) => {
     scales: {
       x: {
         title: {
-          text: "Time (HH:MM:SS)",
+          text: "Time (HH:MM)",
           display: true,
         },
 
@@ -81,7 +87,7 @@ const Chart = ({ readings }) => {
       },
       y: {
         title: {
-          text: "CO2",
+          text: "CO2 (ppm)",
           display: true,
         },
         min: 0,
@@ -89,12 +95,15 @@ const Chart = ({ readings }) => {
 
       y1: {
         title: {
-          text: "VOC",
+          text: "VOC (ppb)",
           display: true,
         },
         min: 0,
         position: "right",
       }
+    },
+    animation: {
+      duration: 0,
     }
   };
 
