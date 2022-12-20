@@ -11,11 +11,11 @@ import {
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend);
 
-const Chart = ({ readings }) => {
+const Chart = ({ readings, timeInterval }) => {
   let co2AverageArr = [];
   let vocAverageArr = [];
   let timeAverageArr = [];
-  let readingsInOneMin = 4;
+  let readingsInOneMin = 40;
   const [co2Values, setCo2Values] = useState([]);
   const [vocValues, setVocValues] = useState([]);
   const [timeValues, setTimeValues] = useState([]);
@@ -113,6 +113,8 @@ const Chart = ({ readings }) => {
     setVocValues(vocArr);
     setTimeValues(timeArr);
   }, [JSON.stringify(readings)]);
+
+  console.log(timeInterval);
 
   // useEffect(() => {
   //   console.log(readings);
