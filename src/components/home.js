@@ -11,7 +11,6 @@ const Home = () => {
   const [current, setCurrentReading] = useState([]);
   const [readings, setReadings] = useState([]);
   const [prevReading, setPrevReading] = useState([]);
-  const [timeInterval, setTimeInterval] = useState(10);
   const [averageInterval, setAverageInterval] = useState(4);
   const [maxPoints, setMaxPoints] = useState(40);
 
@@ -26,8 +25,7 @@ const Home = () => {
     },
   };
 
-  const setChartParams = (interval, average, max) => {
-    setTimeInterval(interval);
+  const setChartParams = (average, max) => {
     setAverageInterval(average);
     setMaxPoints(max);
   };
@@ -69,79 +67,80 @@ const Home = () => {
   // }, [readings, timeInterval]);
 
   return (
-    <>
-      <div className="px-6 flex flex-col gap-5 items-center justify-center">
+    <div className="flex items-center justify-center w-full">
+      <div className="px-6 py-4 flex grow flex-col gap-5 md:max-w-5xl">
         <div className="flex flex-col items-center gap-2 justify-center py-3 px-5 border rounded-md w-full">
-          <p className="font-jakarta flex w-full justify-start font-bold text-lg">
+          <p className="font-jakarta w-full justify-start font-bold text-lg md:text-2xl">
             Readings
           </p>
-          <DataCard
-            name="CO₂"
-            current={current}
-            prev={prevReading}
-            dataParameter="co2"
-            threshold={thresholds.co2}
-            unit="PPM"
-            loading={loading}
-          />
-          <DataCard
-            name="VOC"
-            current={current}
-            prev={prevReading}
-            dataParameter="voc"
-            threshold={thresholds.voc}
-            unit="mg/m³"
-            loading={loading}
-          />
+          <div className="flex flex-col gap-5 md:flex-row w-full">
+            <DataCard
+              name="CO₂"
+              current={current}
+              prev={prevReading}
+              dataParameter="co2"
+              threshold={thresholds.co2}
+              unit="PPM"
+              loading={loading}
+            />
+            <DataCard
+              name="VOC"
+              current={current}
+              prev={prevReading}
+              dataParameter="voc"
+              threshold={thresholds.voc}
+              unit="PPB"
+              loading={loading}
+            />
+          </div>
         </div>
-        <div className="flex flex-col items-center gap-2 justify-center py-3 px-5 border rounded-md w-full">
+        <div className="flex flex-grow flex-col items-center gap-2 justify-start py-3 px-5 border rounded-md w-full h-min">
           <div className="flex justify-between w-full items-center">
-            <p className="font-jakarta flex w-full justify-start font-bold text-lg">
+            <p className="font-jakarta flex w-full justify-start font-bold text-lg md:text-2xl">
               Chart
             </p>
 
             <button
               autoFocus
               type="radio"
-              className="rounded-l px-1.5 py-1 text-xs font-jakarta w-14 bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white"
-              onClick={() => setChartParams(10, 4, 40)}
+              className="rounded-l px-1.5 py-1 text-xs font-jakarta bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white lg:text-lg lg:px-3"
+              onClick={() => setChartParams(4, 40)}
             >
               10MIN
             </button>
             <button
               disabled={readings.length < 240}
               type="radio"
-              className="px-1.5 py-1 text-xs font-jakarta w-14 bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white disabled:opacity-50"
-              onClick={() => setChartParams(60, 20, 240)}
+              className="px-1.5 py-1 text-xs font-jakarta bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white disabled:opacity-50 lg:text-lg lg:px-3"
+              onClick={() => setChartParams(20, 240)}
             >
               1HR
             </button>
             <button
               disabled={readings.length < 1440}
               type="radio"
-              className="px-1.5 py-1 text-xs font-jakarta w-14 bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white disabled:opacity-50"
-              onClick={() => setChartParams(360, 80, 1440)}
+              className="px-1.5 py-1 text-xs font-jakarta bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white disabled:opacity-50 lg:text-lg lg:px-3"
+              onClick={() => setChartParams(80, 1440)}
             >
               6HR
             </button>
             <button
               disabled={readings.length < 5670}
               type="radio"
-              className="rounded-r px-1.5 py-1 text-xs font-jakarta w-14 bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white disabled:opacity-50"
-              onClick={() => setChartParams(1440, 240, 5760)}
+              className="rounded-r px-1.5 py-1 text-xs font-jakarta bg-slate-200 focus:outline-none focus:bg-cyan-500 focus:text-white disabled:opacity-50 lg:text-lg lg:px-3"
+              onClick={() => setChartParams(240, 5760)}
             >
               24HR
             </button>
           </div>
           <Chart
             readings={readings}
-            timeInterval={timeInterval}
             averageInterval={averageInterval}
             maxPoints={maxPoints}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

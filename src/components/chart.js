@@ -8,6 +8,7 @@ import {
   LinearScale,
   PointElement,
   Legend,
+  Filler,
 } from "chart.js";
 
 ChartJS.register(
@@ -16,10 +17,11 @@ ChartJS.register(
   LinearScale,
   PointElement,
   Legend,
-  zoomPlugin
+  zoomPlugin,
+  Filler
 );
 
-const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
+const Chart = ({ readings, averageInterval, maxPoints }) => {
   const [co2Values, setCo2Values] = useState([]);
   const [vocValues, setVocValues] = useState([]);
   const [timeValues, setTimeValues] = useState([]);
@@ -34,12 +36,8 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
     while (arr.length) {
       groups.push(arr.splice(0, n));
     }
-
     return groups.map((group) => group.reduce((a, b) => a + b) / group.length);
   }
-  const arraySlice = (array) => {
-    return array.slice(0, readings.length - (readings.length % maxPoints));
-  };
 
   useEffect(() => {
     const readingsCopy = [...readings];
@@ -56,7 +54,7 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
       let seconds = currentTimeStamp.getSeconds();
       return `${hours}:${minutes}:${seconds}`;
     });
-    console.log(timeArr);
+
     if (readings.length > 40) {
       co2Arr = averageEvery(co2Arr, averageInterval);
       vocArr = averageEvery(vocArr, averageInterval);
@@ -64,12 +62,11 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
         (e, i) => i % averageInterval === averageInterval - 1
       );
     }
-    console.log(timeArr);
 
     setCo2Values(co2Arr);
     setVocValues(vocArr);
     setTimeValues(timeArr);
-  }, [JSON.stringify(readings), timeInterval]);
+  }, [JSON.stringify(readings), averageInterval]);
 
   // useEffect(() => {
   //   console.log(readings);
@@ -132,8 +129,7 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
         label: "CO₂",
         data: co2Values,
         borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "#fda4af",
-        borderColor: "#fda4af",
+        backgroundColor: "rgb(255, 99, 132,0.5)",
         borderCapStyle: "round",
         tension: 0.4,
         pointRadius: (ctx) => {
@@ -142,14 +138,13 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
 
           for (let i = 0; i <= pointsLength; i++) {
             if (i === pointsLength) {
-              pointsArray.push(3);
+              pointsArray.push(4);
             } else {
               pointsArray.push(0);
             }
           }
           return pointsArray;
         },
-        pointBackgroundColor: "rgba(255, 99, 132, 1)",
         yAxisID: "PPM",
       },
       //VOC PLOT
@@ -157,23 +152,23 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
         label: "VOC",
         data: vocValues,
         borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: "rgb(53, 162, 235,0.5)",
         borderCapStyle: "round",
         tension: 0.4,
-        yAxisID: "PPB",
         pointRadius: (ctx) => {
           const pointsLength = ctx.chart.data.labels.length - 1;
           const pointsArray = [];
 
           for (let i = 0; i <= pointsLength; i++) {
             if (i === pointsLength) {
-              pointsArray.push(3);
+              pointsArray.push(4);
             } else {
               pointsArray.push(0);
             }
           }
           return pointsArray;
         },
+        yAxisID: "PPB",
       },
     ],
   };
@@ -181,8 +176,6 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
   return (
     <div className="flex flex-grow items-start justify-center w-full p-0">
       <Line data={data} options={options} width={"full"} height={"300"} />
-
-      {/* <Line width={"600px"} height={"600"} data={data} options={options} /> */}
     </div>
   );
 };

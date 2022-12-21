@@ -9,7 +9,7 @@ import Nav from "./nav";
 
 function App() {
   return (
-    <div className="flex flex-col gap-4 h-full">
+    <div className="flex flex-col min-h-screen">
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
