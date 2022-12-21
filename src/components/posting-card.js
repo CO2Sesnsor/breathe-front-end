@@ -18,6 +18,26 @@ const Postingcard = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const myInterval = setInterval(() => {
+      let randCO = Math.floor(Math.random() * 3000);
+      let randVOC = Math.floor(Math.random() * 600);
+
+      let readingJSON = {
+        co2: randCO,
+        voc: randVOC,
+      };
+
+      // console.log(`data:${JSON.stringify(readingJSON)}`);
+      sensorReadingsAPI.postReading(readingJSON);
+      return 0;
+    }, 15000);
+
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, []);
+
   const co2Ref = useRef();
   const vocRef = useRef();
 
