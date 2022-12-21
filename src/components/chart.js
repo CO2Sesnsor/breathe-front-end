@@ -179,8 +179,8 @@ const Chart = ({ readings, timeInterval, averageInterval, maxPoints }) => {
   };
 
   return (
-    <div>
-      <Line data={data} options={options} width={"full"} height={300} />
+    <div className="flex flex-grow items-start justify-center w-full p-0">
+      <Line data={data} options={options} width={"full"} height={"300"} />
 
       {/* <Line width={"600px"} height={"600"} data={data} options={options} /> */}
     </div>
