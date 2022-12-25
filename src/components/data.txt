@@ -1,0 +1,4 @@
+co2 400
+tvoc 2
+co2 300
+tvoc 5
