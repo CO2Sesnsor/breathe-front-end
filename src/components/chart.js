@@ -44,6 +44,7 @@ const Chart = ({ readings, averageInterval, maxPoints }) => {
     while (readingsCopy.length > maxPoints) {
       readingsCopy.shift();
     }
+    console.log(readingsCopy);
 
     let co2Arr = readingsCopy.map((current) => current["co2"]);
     let vocArr = readingsCopy.map((current) => current["voc"]);
