@@ -20,8 +20,8 @@ const Home = () => {
       moderate: 2000,
     },
     voc: {
-      good: 300,
-      moderate: 500,
+      good: 400,
+      moderate: 800,
     },
   };
 
