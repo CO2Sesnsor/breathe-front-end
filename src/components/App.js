@@ -8,11 +8,14 @@ import Chart from "./chart";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/postdata" element={<Postingcard />} />
-      <Route path="/chart" element={<Chart />} />
-    </Routes>
+    <div className="flex flex-col min-h-screen">
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/postdata" element={<Postingcard />} />
+        <Route path="/chart" element={<Chart />} />
+      </Routes>
+    </div>
   );
 }
 
