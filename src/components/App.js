@@ -5,6 +5,7 @@ import Postingcard from "./posting-card";
 import Home from "./home";
 import { Route, Routes } from "react-router-dom";
 import Chart from "./chart";
+import Nav from "./nav";
 
 function App() {
   return (
