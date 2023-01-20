@@ -75,6 +75,7 @@ const DataCard = ({
           className={` ${styles.bg} ${styles.font} py-5 px-8 rounded-lg flex flex-col gap-5 w-96`}
         >
           <div className="flex justify-between">
+            <p className="text-lg font-jakarta md:text-xl">{name}</p>
             <p className="text-lg font-normal font-jakarta">{name} Reading</p>
           </div>
           {loading ? (
