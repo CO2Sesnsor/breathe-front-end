@@ -62,6 +62,16 @@ const Home = () => {
       .subscribe();
   }, [firstDataLoad]);
 
+  const postRand = () => {
+    let randCO = Math.floor(Math.random() * 3000);
+    let randVOC = Math.floor(Math.random() * 600);
+    const readingsJSON = {
+      co2: randCO,
+      voc: randVOC,
+    };
+    sensorReadingsAPI.postReading(readingsJSON);
+  };
+
   // useEffect(() => {
   //   console.log(readings.length);
   // }, [readings, timeInterval]);
@@ -70,9 +80,17 @@ const Home = () => {
     <div className="flex items-center justify-center w-full">
       <div className="px-6 py-4 flex grow flex-col gap-5 md:max-w-5xl">
         <div className="flex flex-col items-center gap-2 justify-center py-3 px-5 border rounded-md w-full">
-          <p className="font-jakarta w-full justify-start font-bold text-lg md:text-2xl">
-            Readings
-          </p>
+          <div className="w-full flex justify-between">
+            <p className="font-jakarta w-full justify-start font-bold text-lg md:text-2xl">
+              Readings
+            </p>
+            <button
+              onClick={postRand}
+              className="whitespace-nowrap px-4 py-1 text-lg rounded font-bold font-jakarta bg-purple-200 transition ease-in-out delay-300 hover:bg-purple-300 hover:-translate-y-1"
+            >
+              POST RANDOM DATA
+            </button>
+          </div>
           <div className="flex flex-col gap-5 md:flex-row w-full">
             <DataCard
               name="CO₂"
@@ -99,7 +117,6 @@ const Home = () => {
             <p className="font-jakarta flex w-full justify-start font-bold text-lg md:text-2xl">
               Chart
             </p>
-
             <button
               autoFocus
               type="radio"

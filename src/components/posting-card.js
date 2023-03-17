@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import readings from "../api/sensorReadings";
 import sensorReadingsAPI from "../api/sensorReadings";
-import Nav from "./nav";
 
 const Postingcard = () => {
   const [co2Number, setco2Number] = useState(1);
